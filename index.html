@@ -908,6 +908,8 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -1041,6 +1043,65 @@
                         </div>
                         <div class="project-links">
                             <a href="#" class="btn">Live Demo</a>
+                            <a href="#" class="btn btn-outline">Code</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Food Ordering System">
+                    </div>
+                    <div class="project-info">
+                        <h3>Food Ordering System</h3>
+                        <p>Online food ordering platform with menu management, cart functionality, order tracking, and payment integration.</p>
+                        <div class="project-tags">
+                            <span class="tag">PHP</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Bootstrap</span>
+                            <span class="tag">MySQL</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn">Live Demo</a>
+                            <a href="#" class="btn btn-outline">Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Blog Platform">
+                    </div>
+                    <div class="project-info">
+                        <h3>Modern Blog Platform</h3>
+                        <p>A responsive blogging platform with rich text editor, user authentication, comments system, and SEO optimization features.</p>
+                        <div class="project-tags">
+                            <span class="tag">React.js</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">Tailwind CSS</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn">Live Demo</a>
+                            <a href="#" class="btn btn-outline">Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card reveal">
+                    <div class="project-img">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Hotel Management Frontend">
+                    </div>
+                    <div class="project-info">
+                        <h3>Hotel</h3>
+                        <p>Interactive hotel booking system with room availability check, online reservations, admin panel, and payment integration.</p>
+                        <div class="project-tags">
+                            <span class="tag">PHP</span>
+                            <span class="tag">MySQLi</span>
+                            <span class="tag">JavaScript</span>
+                            <span class="tag">Bootstrap</span>
+                            <span class="tag">AJAX</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://hotelranbirsalambagh.com/" class="btn">Live Demo</a>
                             <a href="#" class="btn btn-outline">Code</a>
                         </div>
                     </div>
@@ -1229,44 +1290,68 @@
         
         createParticles();
         
+        (function() {
+            emailjs.init("YOUR_USER_ID"); // Replace with your actual User ID
+        })();
+        
         // Form Submission
         const contactForm = document.getElementById('contactForm');
         
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
+            // Show loading state
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
             // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
             
-            // Here you would typically send the form data to a server
-            console.log({ name, email, subject, message });
-            
-            // Show success message
-            alert('Thank you for your message! I will get back to you soon.');
-            
-            // Reset form
-            contactForm.reset();
-        });
-        
-        // Smooth Scrolling for Anchor Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
+            // Send email using EmailJS
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+                from_name: formData.name,
+                from_email: formData.email,
+                subject: formData.subject,
+                message: formData.message,
+                to_email: "mrdineshtiwarii@gmail.com"
+            })
+            .then((response) => {
+                console.log('Email sent successfully!', response.status, response.text);
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Message Sent!',
+                    text: 'Thank you for your message. I will get back to you soon.',
+                    confirmButtonColor: '#3498db'
+                });
+                contactForm.reset();
+            }, (error) => {
+                console.log('Failed to send email:', error);
+                // Show error message
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong. Please try again later or contact me directly at mrdineshtiwarii@gmail.com',
+                    confirmButtonColor: '#3498db'
+                });
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
             });
         });
+    </script>
+    <script>
+        // Initialize EmailJS (add this at the top of your script)
+
     </script>
 </body>
 </html>
